@@ -6,7 +6,7 @@ import re
 def extract_intent(user_message: str) -> dict:
     msg = user_message.lower()
 
-    # 🔍 Extract percentage (dynamic)
+    #Extract percentage (dynamic)
     match = re.search(r"(\d+)\s*%", msg)
     magnitude = match.group(1) + "%" if match else "10%"
 
