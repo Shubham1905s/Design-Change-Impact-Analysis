@@ -1,4 +1,4 @@
-# ✅ MOCK LLM SERVICE (Improved + Future Ready)
+# MOCK LLM SERVICE (Improved + Future Ready)
 
 import re
 
