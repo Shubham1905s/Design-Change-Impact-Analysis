@@ -43,7 +43,8 @@ It depends on:
 
 - **Neo4j** for relationship-based impact analysis
 - **Python services** for intent extraction, graph queries, and cost estimation
-- A **mock LLM service** that simulates intent parsing and final report generation
+- backend environment configuration for **Google/Gemini API access**
+- a current **PoC LLM service layer** that handles intent extraction and report generation
 
 ### Frontend
 
@@ -118,7 +119,15 @@ Set the Neo4j environment variables in `backend/.env`:
 NEO4J_URI=...
 NEO4J_USER=...
 NEO4J_PASSWORD=...
+GEMINI_API_KEY=...
+LLM_PROVIDER=...
 ```
+
+Notes:
+
+- `GEMINI_API_KEY` is used to store the Google API key for LLM-based features.
+- `LLM_PROVIDER` is used to indicate which LLM provider the backend should use.
+- In the currently checked-in code, these values are present in configuration, but `backend/services/llm_service.py` still behaves as a mock/rule-based implementation.
 
 Run the FastAPI server:
 
@@ -333,8 +342,10 @@ What each important part does:
 
 Important note:
 
-- this is currently a **mock rule-based intent extractor**, not a real LLM call
-- the `openai` package is installed, but the current service does not use the OpenAI API yet
+- the backend configuration now includes `GEMINI_API_KEY` and `LLM_PROVIDER` in `backend/.env`
+- this shows the project is prepared for Google/Gemini-based intent extraction
+- however, in the currently checked-in [backend/services/llm_service.py](/d:/Placement%20materials/Navajna/Internship/AI%20powered%20module/Discrete-Manufacturing-Company/backend/services/llm_service.py), `extract_intent` still runs as a **rule-based mock implementation**
+- so the Google API key is an important configured part of the project, even though the present source file does not yet call the Gemini API directly
 
 `synthesise_report`
 
@@ -503,7 +514,9 @@ These are the most important ideas and implementation details to understand:
 ### 10.6 Environment configuration is required
 
 - the backend needs Neo4j credentials from `.env`
+- the backend also includes `GEMINI_API_KEY` and `LLM_PROVIDER` for Google/Gemini-based LLM configuration
 - if these are missing or incorrect, graph queries will fail
+- if Gemini integration code is enabled later, missing LLM configuration would also break intent-extraction or report-generation features
 
 ### 10.7 The UI currently expects the backend at localhost
 
